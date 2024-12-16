@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const PORT = 3000;
+const cors = require('cors');
 
 // MongoDB connection string
 const MONGO_URI = 'mongodb+srv://daniil:EjXl9GdpFjUOeqXE@cars.pbbin.mongodb.net/';
@@ -44,6 +45,10 @@ async function seedDatabase() {
 
 seedDatabase();
 
+app.use(cors({
+    origin: 'http://localhost:3001'  // Replace with your React app's URL (default is usually http://localhost:3000)
+}));
+
 // Define the endpoint to return a list of car brand names
 app.get('/car-brands', async (req, res) => {
     try {
@@ -52,7 +57,7 @@ app.get('/car-brands', async (req, res) => {
     } catch (err) {
         res.status(500).send('Error fetching car brands');
     }
-});
+});  
 
 // Start the server
 app.listen(PORT, () => {
