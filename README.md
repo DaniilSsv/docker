@@ -104,3 +104,20 @@ kubectl get pods
 kubectl get services
 
 ![alt text](image-6.png)
+
+Het is belangrijk dat je een tunnel opent voor minikube. Minikube support geen loadbalancer services. Om onze front end te bereiken moeten we een tunnel openen.
+
+commando: minikube tunnel
+Deze moet ook altijd blijven runnen op een openstaande terminal
+
+Hierna voeren we nog eens de kubectl get services uit.
+Het is de bedoeling dat je nu ook de externe ip ziet van de loadbalancer.
+Met deze ip kan je in uw browser de frontend bereiken.
+
+Zie screenshots
+
+![alt text](image-7.png)
+
+![alt text](image-8.png)
+
+![alt text](image-9.png)
