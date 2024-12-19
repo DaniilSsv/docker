@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 function App() {
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
   const [carBrands, setCarBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   // Fetch car brands from the backend using fetch
   useEffect(() => {
-    fetch('http://localhost:3000/car-brands')
+    fetch(`${API_URL}/car-brands`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
