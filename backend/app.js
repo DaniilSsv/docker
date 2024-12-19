@@ -6,10 +6,12 @@ const PORT = 3000;
 const cors = require('cors');
 
 // MongoDB connection string
-const MONGO_URI = 'mongodb+srv://daniil:EjXl9GdpFjUOeqXE@cars.pbbin.mongodb.net/';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://daniil:EjXl9GdpFjUOeqXE@cars.pbbin.mongodb.net/';
 
 // Connect to MongoDB
-mongoose.connect(MONGO_URI)
+mongoose.connect(MONGO_URI, {
+    serverSelectionTimeoutMS: 30000
+})
 .then(() => {
     console.log('Connected to MongoDB');
 }).catch((err) => {
