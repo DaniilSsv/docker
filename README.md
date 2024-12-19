@@ -16,3 +16,14 @@ Dit is een starter voor jullie assignment
 
 Lokaal
 ![alt text](image-1.png)
+
+### Dockerizing
+
+## Backend
+
+Aanmaken van de DockerFile
+een dockerIgnore voor node modules en log
+
+## Frontend
+
+Zelfde stap als backend
