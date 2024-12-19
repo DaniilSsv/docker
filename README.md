@@ -27,3 +27,20 @@ een dockerIgnore voor node modules en log
 ## Frontend
 
 Zelfde stap als backend
+
+## yaml file
+
+yaml file aanmaken
+backend service draait op poort 3000
+maakt gebruik van mongo uri environment en zal pas starten nadat de db is gestart.
+
+frontend service zal op poort 80 draaien
+environment verwijst naar backend
+
+Database pullt latest img van mongo
+Slaat data op in ./data/db
+draait op poort 27017
+creeërt een netwerk zodat alle services kunnen communiceren op backend-network
+
+docker-compose up --build
+zal alles images maken, services starten en backend exposen op localhost:3000 en frontend op localhost

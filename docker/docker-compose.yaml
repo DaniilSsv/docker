@@ -1,7 +1,0 @@
-services:
-  backend:
-    image: ./backend/.....
-  frontend:
-    image: ./frontend/....
-  db:
-  image: 

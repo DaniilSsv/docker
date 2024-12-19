@@ -46,7 +46,7 @@ async function seedDatabase() {
 seedDatabase();
 
 app.use(cors({
-    origin: 'http://localhost:3001'  // Replace with your React app's URL (default is usually http://localhost:3000)
+    origin: '*'  // Replace with your React app's URL (default is usually http://localhost:3000)
 }));
 
 // Define the endpoint to return a list of car brand names

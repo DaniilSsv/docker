@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend  # Build from the backend folder
+      dockerfile: Dockerfile  # Use Dockerfile in the backend folder
+    ports:
+      - "3000:3000"  # Expose backend port to localhost
+    environment:
+      - MONGO_URI=mongodb://db:27017/cars  # MongoDB connection string, pointing to the 'db' service
+    depends_on:
+      - db  # Ensure the database is started before the backend
+
+  frontend:
+    build:
+      context: ./frontend # Build from the frontend folder
+      dockerfile: Dockerfile  # Use Dockerfile in the frontend folder
+    ports:
+      - "80:80"  # Expose frontend port to localhost
+    depends_on:
+      - backend  # Ensure backend is started before frontend
+    environment:
+      - REACT_APP_API_URL=http://backend:3000  # Set the API URL for the React app
+
+  db:
+    image: mongo:latest  # Use the official MongoDB image
+    volumes:
+      - ./data/db:/data/db  # Persist database data on local machine
+    ports:
+      - "27017:27017"  # Expose MongoDB port to localhost
+    networks:
+      - backend-network  # Use the same network for all services to communicate
+
+networks:
+  backend-network:
+    driver: bridge  # Set up a network so services can communicate with each other
