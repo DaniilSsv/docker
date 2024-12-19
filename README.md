@@ -44,3 +44,5 @@ creeërt een netwerk zodat alle services kunnen communiceren op backend-network
 
 docker-compose up --build
 zal alles images maken, services starten en backend exposen op localhost:3000 en frontend op localhost
+
+![alt text](image-2.png)
