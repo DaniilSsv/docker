@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   backend:
+    image: kaljmarik/backend
     build:
       context: ./backend  # Build from the backend folder
       dockerfile: Dockerfile  # Use Dockerfile in the backend folder
@@ -15,6 +16,7 @@ services:
       - backend-network  # Connect to the same network as other services
 
   frontend:
+    image: kaljmarik/frontend
     build:
       context: ./frontend  # Build from the frontend folder
       dockerfile: Dockerfile  # Use Dockerfile in the frontend folder

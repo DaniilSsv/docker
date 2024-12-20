@@ -51,7 +51,7 @@ draait op poort 27017<br/>
 creeërt een netwerk zodat alle services kunnen communiceren op backend-network
 
 docker-compose up --build<br/>
-zal alles images maken, services starten en backend exposen op localhost:3000 en frontend op localhost
+zal alles images maken, services starten en backend exposen op localhost:3000 en frontend op localhost. Het is belangrijk om te weten dat ookal is je backend bereikbaar op http://backend:3000/car-brands. Je MOET in app localhost gebruiken omdat de react niet in de container zelf runt, maar op je browser en die heeft daar geen toegang toe.
 
 ![alt text](image-2.png)
 
