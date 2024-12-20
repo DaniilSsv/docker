@@ -165,3 +165,5 @@ Om de app te bereiken kan dit van pas komen:
 ```
 minikube service frontend-service --url
 ```
+
+![alt text](image-11.png)

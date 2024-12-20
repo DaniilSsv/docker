@@ -19,7 +19,7 @@ spec:
             - containerPort: 3000
           env:
             - name: MONGO_URI
-              value: 'mongodb://mongo:27017/cars'
+              value: 'mongodb://mongo-service:27017/cars'
 ---
 apiVersion: v1
 kind: Service

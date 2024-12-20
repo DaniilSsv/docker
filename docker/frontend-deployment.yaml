@@ -19,7 +19,7 @@ spec:
             - containerPort: 80
           env:
             - name: REACT_APP_API_URL
-              value: 'http://backend-service' # Backend service URL in Kubernetes
+              value: 'http://backend-service:3000' # Backend service URL in Kubernetes
 ---
 apiVersion: v1
 kind: Service
