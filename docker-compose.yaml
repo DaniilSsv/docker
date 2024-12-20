@@ -29,8 +29,6 @@ services:
       - ./data/db:/data/db  # Persist database data on local machine
     ports:
       - "27017:27017"  # Expose MongoDB port to localhost
-    networks:
-      - backend-network  # Use the same network for all services to communicate
 
 networks:
   backend-network:

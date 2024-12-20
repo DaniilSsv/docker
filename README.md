@@ -149,3 +149,19 @@ Zie screenshots
 Hier zien we dat de tunnel succesvol werd gestart<br/>
 Tijdens het ophalen van de services zien we dat de externe ip niet op loading staat maar effectief een ip heeft gekregen.<br/>
 Op de laatste screenshot zien we dat
+
+Had een fout gemaakt waarbij mijn andere container nog werkte op achtergrond en dus gebruik maakte van deployt db op atlas.<br/>
+Heb mijn app moeten aanpassen om correct een uri mee tegeven:
+
+![alt text](image-10.png)
+
+We builden en pushen het opnieuw naar dockerhub<br/>
+Nu werkt alle scorrect bij het builden van de dockercompose en maakt het gebruik van de db in container en niet atlas.
+
+Het is mogelijk dat de backend niet direct runt of errort, dit kan zijn omdat de db nog niet opgesteld is binnen minikube, geef het wat tijd.
+
+Om de app te bereiken kan dit van pas komen:
+
+```
+minikube service frontend-service --url
+```
