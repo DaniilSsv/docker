@@ -3,7 +3,7 @@ Dit is een starter voor jullie assignment
 
 # backend
 
-```
+```bash
 npm i
 node app.js
 ```
@@ -13,7 +13,7 @@ Lokaal<br/>
 
 # frontend
 
-```
+```bash
 npm i
 npm start
 ```
@@ -67,7 +67,7 @@ Eerts de 3 containers laten runnen, kun je checken met docker ps
 
 ### docker commit
 
-```
+```bash
 docker commit assignment-docker-and-cloud-computing-daniilssv-backend-1 kaljmarik/backend:v1
 ```
 
@@ -80,7 +80,7 @@ behalve database, deze mag gebruik maken van mongo:latest
 
 Nu dat alles gecommit is kunnen we de laatste versie pushen naar dockerhub
 
-```
+```bash
 docker push your-docker-username/backend:v1
 ```
 
@@ -88,10 +88,11 @@ We doen hetzelfde met de rest
 
 ![alt text](image-4.png)
 
-### .yaml
+### .yamls
 
-We maken voor alle services een yaml file<br/>
-deze zorgen voor de configuratie van kubernetes
+We maken voor alle services een yaml deployment file<br/>
+We maken een ConfigMap voor front en backend, deze geven de url mee voor connectie<br/>
+Er zijn geen secrets nodig en binnen de services.yaml vind je nodige instellingen voor alle 3 de services
 
 ## Minikube
 
@@ -100,83 +101,66 @@ status checken: `minikube status` <br/>
 
 vervolgens testen of je connectie hebt met minikube
 
-```
+```bash
 kubectl cluster-info
 kubectl get nodes
 ```
 
 ### applying yamls naar minikube
 
-we voeren uit:
+VOLGORDE IS BELANGRIJK, anders moet je bepaalde pods restarten of wachten tot zij dat zelf doen.
 
-VOLGORDE IS BELANGRIJK
+Eerst voeren we de configuratie en services uit.
 
+```bash
+kubectl apply -f k8s/configMap.yaml
+kubectl apply -f k8s/services.yaml
 ```
-kubectl apply -f docker/mongo-deployment.yaml
-kubectl apply -f docker/backend-deployment.yaml
-kubectl apply -f docker/frontend-deployment.yaml
-```
 
-![alt text](image-5.png)
+Vervolgens deployen we de apps
+
+```bash
+kubectl apply -f k8s/mongo-deployment.yaml
+kubectl apply -f k8s/frontend-deployment.yaml
+kubectl apply -f k8s/backend-deployment.yaml
+```
 
 ## verifiëren
 
-```
+In ons geval testen we indien de loadbalancer 3 pods kan maken voor de scalability en of ze werken
+
+```bash
 kubectl get pods
 kubectl get services
 ```
 
-![alt text](image-6.png)
+![alt text](image-5.png)
 
-Het is belangrijk dat je een tunnel opent voor minikube. Minikube support geen loadbalancer services. Om onze front-end te bereiken moeten we een tunnel openen.
+Het is belangrijk dat je een tunnel opent voor minikube. Minikube support standaard geen loadbalancer services. Om onze front- en backend te bereiken moeten we een tunnel openen.
 
-commando:
-
-```
+```bash
 minikube tunnel
-kubectl port-forward service/backend-service 3000:80
 ```
-
-Beide moeten ook altijd blijven runnen op een openstaande terminal anders verbreekt de connectie, hier zetten we ook de poort open van de api open zodat deze ook extern beschikbaar is. Anders krijgen we een probleem waarbij er geen connectie is tussen de 2.<br/>
-
-![alt text](image-12.png)
 
 ![alt text](image-7.png)
 
-Hierna voeren we nog eens de `kubectl get services` uit.<br/>
-Het is de bedoeling dat je nu ook de externe ip ziet van de loadbalancer.<br/>
-Met deze ip kan je in uw browser de frontend bereiken.
+Zie onderstaande image dat de frontend bereikbaar staat op 3 ip's omdat we 3 replicas hebben ingesteld.
+![alt text](image-13.png)
 
-Zie screenshots
+Na meerdere browsers en refreshes zien wij dat er in verschillende pods logs te zien zijn dat ze bereikt waren.
 
-![alt text](image-8.png)
+![alt text](image-14.png)
+
+We voeren nog eens de get services uit om aan te tonen dat er maar 1 draait.
+
+![alt text](image-15.png)
+
+### Success
 
 ![alt text](image-9.png)
 
-Hier zien we dat de tunnel succesvol werd gestart<br/>
-Tijdens het ophalen van de services zien we dat de externe ip niet op loading staat maar effectief een ip heeft gekregen.<br/>
-
-De connectie tussen de 2 testen we ook nog eens lokaal via kubectl.<br/>
-Dit doen we met behulp van deze commando's:<br/>
-
-```
-kubectl exec -it frontend-deployment-5cf9cbc856-r7h68 -- env | Select-String REACT_APP_API_URL
-kubectl exec -it frontend-deployment-5cf9cbc856-r7h68 -- curl http://10.244.0.73:3000/car-brands
-```
-
-Hier maken we gebruik van de frontend pod naam en de curl verwijst naar de pod cluster ip
-
-![alt text](image-10.png)
-
-We builden en pushen het opnieuw naar dockerhub<br/>
-Nu werkt alle scorrect bij het builden van de dockercompose en maakt het gebruik van de db in container en niet atlas.
-
-Het is mogelijk dat de backend niet direct runt of errort, dit kan zijn omdat de db nog niet opgesteld is binnen minikube, geef het wat tijd.
-
-Om de app te bereiken kan dit van pas komen:
-
-```
-minikube service frontend-service --url
-```
+Indien nodig kun je ook de connectie testen tussen de pods door kubectl exec -it. Je voert dan een curl naar de nodige pod uit
 
 ![alt text](image-11.png)
+
+Het is mogelijk dat de backend niet direct runt of errort, dit kan zijn omdat de db nog niet opgesteld is binnen minikube, geef het wat tijd.
