@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Set the environment variable for React during the build process
-ENV REACT_APP_API_URL $REACT_APP_API_URL
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
 # Build the app for production
 RUN npm run build

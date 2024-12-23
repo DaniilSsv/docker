@@ -61,7 +61,7 @@ voordat we beginnen met de yamls moeten we de frontend en backend images creëre
 
 ## Images
 
-### containers runnne
+### containers runnen
 
 Eerts de 3 containers laten runnen, kun je checken met docker ps
 
@@ -78,11 +78,13 @@ behalve database, deze mag gebruik maken van mongo:latest
 
 ### docker push
 
+Nu dat alles gecommit is kunnen we de laatste versie pushen naar dockerhub
+
 ```
 docker push your-docker-username/backend:v1
 ```
 
-hetzelfde met de rest
+We doen hetzelfde met de rest
 
 ![alt text](image-4.png)
 
@@ -93,9 +95,8 @@ deze zorgen voor de configuratie van kubernetes
 
 ## Minikube
 
-docker container runnen<br/>
-status checken: `minikube status` <br/>
 starten: `minikube start` <br/>
+status checken: `minikube status` <br/>
 
 vervolgens testen of je connectie hebt met minikube
 
@@ -108,7 +109,10 @@ kubectl get nodes
 
 we voeren uit:
 
+VOLGORDE IS BELANGRIJK
+
 ```
+kubectl apply -f docker/mongo-deployment.yaml
 kubectl apply -f docker/backend-deployment.yaml
 kubectl apply -f docker/frontend-deployment.yaml
 ```
@@ -130,9 +134,14 @@ commando:
 
 ```
 minikube tunnel
+kubectl port-forward service/backend-service 3000:80
 ```
 
-Deze moet ook altijd blijven runnen op een openstaande terminal anders verbreekt de connectie
+Beide moeten ook altijd blijven runnen op een openstaande terminal anders verbreekt de connectie, hier zetten we ook de poort open van de api open zodat deze ook extern beschikbaar is. Anders krijgen we een probleem waarbij er geen connectie is tussen de 2.<br/>
+
+![alt text](image-12.png)
+
+![alt text](image-7.png)
 
 Hierna voeren we nog eens de `kubectl get services` uit.<br/>
 Het is de bedoeling dat je nu ook de externe ip ziet van de loadbalancer.<br/>
@@ -140,18 +149,22 @@ Met deze ip kan je in uw browser de frontend bereiken.
 
 Zie screenshots
 
-![alt text](image-7.png)
-
 ![alt text](image-8.png)
 
 ![alt text](image-9.png)
 
 Hier zien we dat de tunnel succesvol werd gestart<br/>
 Tijdens het ophalen van de services zien we dat de externe ip niet op loading staat maar effectief een ip heeft gekregen.<br/>
-Op de laatste screenshot zien we dat
 
-Had een fout gemaakt waarbij mijn andere container nog werkte op achtergrond en dus gebruik maakte van deployt db op atlas.<br/>
-Heb mijn app moeten aanpassen om correct een uri mee tegeven:
+De connectie tussen de 2 testen we ook nog eens lokaal via kubectl.<br/>
+Dit doen we met behulp van deze commando's:<br/>
+
+```
+kubectl exec -it frontend-deployment-5cf9cbc856-r7h68 -- env | Select-String REACT_APP_API_URL
+kubectl exec -it frontend-deployment-5cf9cbc856-r7h68 -- curl http://10.244.0.73:3000/car-brands
+```
+
+Hier maken we gebruik van de frontend pod naam en de curl verwijst naar de pod cluster ip
 
 ![alt text](image-10.png)
 

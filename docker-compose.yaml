@@ -27,7 +27,7 @@ services:
     depends_on:
       - backend  # Ensure backend is started before frontend
     environment:
-      - REACT_APP_API_URL=http://localhost:3000  # Set the API URL for the React app
+      - REACT_APP_API_URL=http://localhost:3000
     networks:
       - backend-network  # Connect to the same network as other services
 
