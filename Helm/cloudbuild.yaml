@@ -1,0 +1,57 @@
+steps:
+  # Step 1: Build and Push Backend Docker Image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Backend'
+    dir: 'backend'
+    args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/backend:latest', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Backend'
+    args: ['push', 'eu.gcr.io/$PROJECT_ID/backend:latest']
+
+  # Step 2: Build and Push Frontend Docker Image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Frontend'
+    dir: 'frontend'
+    args: ['build', '-t', 'eu.gcr.io/$PROJECT_ID/frontend:latest', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Frontend'
+    args: ['push', 'eu.gcr.io/$PROJECT_ID/frontend:latest']
+
+  # Step 3: Set up kubectl with GKE credentials
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    id: 'Setup kubectl'
+    args:
+      - 'install'
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: 'Configure kubectl'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud container clusters get-credentials YOUR_CLUSTER_NAME --region europe-west1 --project $PROJECT_ID
+
+  # Step 4: Deploy with Helm
+  - name: 'gcr.io/cloud-builders/helm'
+    id: 'Helm Deploy'
+    args:
+      - 'upgrade'
+      - '--install'
+      - 'car-app'
+      - './helm'
+      - '-f'
+      - 'values.yaml'
+      - '--set'
+      - 'backend.image=eu.gcr.io/$PROJECT_ID/backend:latest'
+      - '--set'
+      - 'frontend.image=eu.gcr.io/$PROJECT_ID/frontend:latest'
+
+images:
+  - 'eu.gcr.io/$PROJECT_ID/backend:latest'
+  - 'eu.gcr.io/$PROJECT_ID/frontend:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  substitutionOption: 'ALLOW_LOOSE'

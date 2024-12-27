@@ -1,3 +1,4 @@
+replicas: 2
 backend:
   image: kaljmarik/backend:latest
 frontend:

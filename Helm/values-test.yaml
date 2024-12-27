@@ -1,0 +1,5 @@
+replicas: 1
+backend:
+  image: kaljmarik/backend:latest
+frontend:
+  image: kaljmarik/frontend:latest
