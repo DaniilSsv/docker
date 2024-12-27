@@ -205,3 +205,7 @@ Eerst deployen we MongoDB daarna backend en dan pas frontend
 TESTEN
 
 ![alt text](image-19.png)
+
+# probleem
+
+Ik had namelijk gebruik gemaakt van localhost tot aan hier, maar dit kon verder niet omdat voor kubernetes er dan een verkeerde fetch uitgevoerd werd. Heb dit opgelost door een proxy in te stellen voor de api door gebruik te maken van nginx.
