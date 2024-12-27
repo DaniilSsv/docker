@@ -206,7 +206,7 @@ Bewijs
 
 ![alt text](image-16.png)
 
-# probleem
+## probleem
 
 Ik had namelijk gebruik gemaakt van localhost tot aan hier, maar dit kon verder niet omdat voor kubernetes er dan een verkeerde fetch uitgevoerd werd. Heb dit opgelost door een proxy in te stellen voor de api door gebruik te maken van nginx.
 
@@ -234,6 +234,85 @@ kubectl scale deployment frontend-deployment --replicas=1
 
 We verwijderen onze vorige oplossing, want helm moet toegang hebben tot de configuratie.<br/>
 
-We voeren dus eerst een `kubectl delete all --all`<br/>
+Je verwijderd alles zodat helm toegang kan krijgen bij het opnieuw aanmaken van je project `kubectl delete all --all`<br/>
 
 nu kun je de helm deployen met ` helm upgrade --install car-app ./car-app-1.0.0.tgz`. Let op dat de naam correct staat met wat er in de Chart.yaml zit.
+
+## Repository
+
+```bash
+helm repo add stable https://charts.helm.sh/stable
+helm repo update
+```
+
+## Environments
+
+### Production
+
+```bash
+kubectl create namespace production
+helm upgrade --install car-app ./car-app-1.0.0.tgz -f values-production.yaml --namespace production
+```
+
+### Test
+
+```bash
+kubectl create namespace testing
+helm upgrade --install car-app-test ./car-app-1.0.0.tgz -f values-test.yaml --namespace testing
+```
+
+om alles te verwijderen typ je: `kubectl delete all --all --namespace <namespace>`
+
+![alt text](image-19.png)
+
+# CI/CD
+
+- Je voegt cloud deploy api toe aan je project
+- Create new delivery pipeline
+- kies de juiste target cluster
+
+Je moet toegang hebben tot de repository
+
+- trigger creëren in cloud build
+- install google cloud in je repository
+- bij branches type je "\*" om alle branches te controleren op wijzigingen
+
+- bij configuratie verwijs je naar cloudbuild.yaml in mijn geval is dat /Helm/cloudbuild.yaml.
+
+Nu is alles klaar en zal je bij ieder nieuw versie op github in uw history een update zien die je kan reviewen en dan accepteren of wijgeren om te updaten.
+
+# Prometheus en Grafana
+
+Voegen prometheus toe
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+```
+
+installen
+
+```bash
+helm install prometheus prometheus-community/kube-prometheus-stack
+```
+
+By default zal deze geïnstalleerd staan in de namespace default
+
+services patchen en naar loadbalancer omzetten, je voert commando uit, pas type aan en saved
+
+```bash
+kubectl edit svc prometheus-kube-prometheus-prometheus
+kubectl edit svc prometheus-grafana
+```
+
+![alt text](image-21.png)
+
+We loggen in met
+Login: admin
+Password: prom-operator
+
+![alt text](image-22.png)
+
+om Prometheus te zien openen wij de prometheus / overview
+
+![alt text](image-23.png)
