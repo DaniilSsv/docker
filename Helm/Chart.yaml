@@ -1,0 +1,5 @@
+apiVersion: v2
+name: car-app
+version: 1.0.0
+description: Helm chart for deploying a Node.js backend, React frontend, and MongoDB on Kubernetes
+type: application
