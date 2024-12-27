@@ -27,8 +27,6 @@ services:
     build:
       context: ./frontend  # Build from the frontend folder
       dockerfile: Dockerfile  # Use Dockerfile in the frontend folder
-    #ports:
-    #  - "80:80"
     depends_on:
       - backend  # Ensure backend is started before frontend
     networks:

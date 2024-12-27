@@ -209,3 +209,10 @@ TESTEN
 # probleem
 
 Ik had namelijk gebruik gemaakt van localhost tot aan hier, maar dit kon verder niet omdat voor kubernetes er dan een verkeerde fetch uitgevoerd werd. Heb dit opgelost door een proxy in te stellen voor de api door gebruik te maken van nginx.
+
+Zie screenshot voor routering.
+
+![alt text](image-16.png)
+![alt text](image-17.png)
+
+zoals je ziet
