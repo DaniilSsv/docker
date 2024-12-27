@@ -7,9 +7,8 @@ function App() {
 
   // Fetch car brands from the backend using fetch
   useEffect(() => {
-    console.log(`${process.env.REACT_APP_API_URL || 'REACT_APP_API_URL_PLACEHOLDER'}/car-brands`)
-    fetch(`${process.env.REACT_APP_API_URL || 'REACT_APP_API_URL_PLACEHOLDER'}/car-brands`)
-
+    console.log('http://localhost:3001/api/car-brands');
+    fetch('http://localhost:3001/api/car-brands')  // Relative URL since Nginx handles the proxying
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -18,7 +17,7 @@ function App() {
       })
       .then(data => {
         setCarBrands(data);
-        setLoading(false);
+        setLoading(false);  
       })
       .catch(err => {
         setError('Error fetching car brands');

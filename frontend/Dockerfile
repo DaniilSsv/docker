@@ -1,6 +1,5 @@
 # Use Node.js for building the React app
 FROM node:16 AS build
-
 WORKDIR /app
 
 # Install dependencies
@@ -8,7 +7,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the app
-COPY . .
+COPY . ./
 
 # Build the React app for production
 RUN npm run build
@@ -23,7 +22,7 @@ COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 3000
 
 # Start NGINX
 CMD ["nginx", "-g", "daemon off;"]

@@ -49,7 +49,7 @@ app.use(cors({
 }));
 
 // Define the endpoint to return a list of car brand names
-app.get('/car-brands', async (req, res) => {
+app.get('/api/car-brands', async (req, res) => {
     try {
         const carBrands = await CarBrand.find({}, 'name');
         res.json(carBrands.map(brand => brand.name));
