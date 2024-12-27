@@ -33,8 +33,9 @@ steps:
       - 'myreactapp-445621' # Replace with your project ID
 
   # Step 5: Deploy with Helm
-  - name: 'gcr.io/cloud-builders/helm:v3.7.0' # Specify a version instead of 'latest'
+  - name: 'alpine/helm:3.7.0' # Use the official Helm image from Docker Hub
     id: 'Helm Deploy'
+    entrypoint: 'helm'
     args:
       - 'upgrade'
       - '--install'
