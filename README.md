@@ -281,6 +281,8 @@ Je moet toegang hebben tot de repository
 
 Nu is alles klaar en zal je bij ieder nieuw versie op github in uw history een update zien die je kan reviewen en dan accepteren of wijgeren om te updaten.
 
+![alt text](image-24.png)
+
 # Prometheus en Grafana
 
 Voegen prometheus toe
