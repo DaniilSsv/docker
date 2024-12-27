@@ -322,3 +322,13 @@ Password: prom-operator
 om Prometheus te zien openen wij de prometheus / overview
 
 ![alt text](image-23.png)
+
+## Problemen
+
+Terug kerende naar mijn helm, had ik blijkbaar verkeerd ingesteld en dat was omdat ik prettier had staan in visual studio.
+Deze veroorzaakte verkeerde indentatie met tabs en liet spatie tussen { { } }, blijkbaar was helm case sensitive.
+
+Hier zien we dat de deployment gelukt is meerdere pogingen
+
+![alt text](image-26.png)
+![alt text](image-27.png)
