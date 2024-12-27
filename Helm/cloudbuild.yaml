@@ -19,7 +19,7 @@ steps:
     id: 'Push Frontend'
     args: ['push', 'eu.gcr.io/myreactapp-445621/frontend:latest']
 
-  # Step 3: Set up kubectl with GKE credentials (Fixed)
+  # Step 3: Set up kubectl with GKE credentials (Fixed with correct region)
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Setup kubectl'
     args:
@@ -28,7 +28,7 @@ steps:
       - 'get-credentials'
       - 'cluster-1' # Replace with your actual GKE cluster name
       - '--region'
-      - 'europe-west1' # Replace with your cluster's region
+      - 'europe-west1-b' # Use the correct region or subregion from your GKE setup
       - '--project'
       - 'myreactapp-445621' # Replace with your project ID
 
