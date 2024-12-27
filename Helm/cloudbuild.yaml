@@ -35,7 +35,7 @@ steps:
   # Step 5: Helm Deploy
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'Helm Deploy'
-    dir: './' # Ensure you're in the root directory
+    dir: './Helm' # Ensures the script runs inside the Helm folder
     entrypoint: 'sh'
     args:
       - '-c'
@@ -45,12 +45,10 @@ steps:
         chmod +x get_helm.sh
         ./get_helm.sh
 
-        # Authenticate and set the correct GKE cluster context
         gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project myreactapp-445621
 
-        cd ./Helm || exit 1
         helm upgrade --install car-app . \
-          -f values.yaml \
+          -f values-prod.yaml \
           --set backend.image=eu.gcr.io/myreactapp-445621/backend:latest \
           --set frontend.image=eu.gcr.io/myreactapp-445621/frontend:latest
 
