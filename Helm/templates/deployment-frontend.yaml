@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend-deployment
 spec:
-  replicas: { { .Values.replicas } }
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: frontend
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: { { .Values.frontend.image } }
+          image: {{ .Values.frontend.image }}
           ports:
             - containerPort: 80
           volumeMounts:
