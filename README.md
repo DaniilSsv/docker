@@ -283,6 +283,10 @@ Nu is alles klaar en zal je bij ieder nieuw versie op github in uw history een u
 
 ![alt text](image-24.png)
 
+## Trigger CI/CD
+
+![alt text](image-25.png)
+
 # Prometheus en Grafana
 
 Voegen prometheus toe
