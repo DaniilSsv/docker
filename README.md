@@ -157,7 +157,7 @@ We voeren nog eens de get services uit om aan te tonen dat er maar 1 draait.
 
 ### Success
 
-![alt text](image-9.png)
+![alt text](image-20.png)
 
 Indien nodig kun je ook de connectie testen tussen de pods door kubectl exec -it. Je voert dan een curl naar de nodige pod uit
 
@@ -200,11 +200,11 @@ Nu applyen we eerst de configmap, die kun je dan testen met `kubectl get configm
 
 Eerst deployen we MongoDB daarna backend en dan pas frontend
 
+![alt text](image-9.png)
+
+Bewijs
+
 ![alt text](image-16.png)
-
-TESTEN
-
-![alt text](image-19.png)
 
 # probleem
 
@@ -215,4 +215,25 @@ Zie screenshot voor routering.
 ![alt text](image-16.png)
 ![alt text](image-17.png)
 
-zoals je ziet
+Om te switchten tussen kubectl van google en minikube gebruik je:
+
+```bash
+kubectl config get-contexts
+kubectl config use-context minikube
+```
+
+### Scalen
+
+Scaling werkt, maar deze werd nu verlaagt om de kost te verminderen
+
+```bash
+kubectl scale deployment frontend-deployment --replicas=1
+```
+
+# HELM
+
+We verwijderen onze vorige oplossing, want helm moet toegang hebben tot de configuratie.<br/>
+
+We voeren dus eerst een `kubectl delete all --all`<br/>
+
+nu kun je de helm deployen met ` helm upgrade --install car-app ./car-app-1.0.0.tgz`. Let op dat de naam correct staat met wat er in de Chart.yaml zit.

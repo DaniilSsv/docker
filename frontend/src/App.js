@@ -7,8 +7,8 @@ function App() {
 
   // Fetch car brands from the backend using fetch
   useEffect(() => {
-    console.log('http://localhost:80/api/car-brands');
-    fetch('http://localhost:80/api/car-brands')  // Relative URL since Nginx handles the proxying
+    console.log('/api/car-brands');
+    fetch('/api/car-brands')  // Relative URL since Nginx handles the proxying
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

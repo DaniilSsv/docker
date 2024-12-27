@@ -17,11 +17,11 @@ spec:
           image: kaljmarik/frontend:latest
           ports:
             - containerPort: 80
-          args:
-            - 'REACT_APP_API_URL=http://backend-service:3000'
-          env:
-            - name: REACT_APP_API_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: frontend-config
-                  key: REACT_APP_API_URL
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config

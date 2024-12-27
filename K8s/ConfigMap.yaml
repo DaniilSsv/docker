@@ -1,14 +1,6 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: frontend-config
-data:
-  REACT_APP_API_URL: 'http://nginx-service/api' # URL for backend service from frontend
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
   name: backend-config
 data:
   MONGO_URI: 'mongodb://mongo-service:27017/cars' # MongoDB connection string for backend
@@ -23,8 +15,8 @@ data:
     events {}
 
     http {
-      upstream backend {
-        server backend-service:3000;  # Backend service (Kubernetes service)
+      upstream backend-service {
+            server backend-service;
       }
 
       server {
@@ -33,12 +25,12 @@ data:
         # Serve React App static files
         location / {
           root /usr/share/nginx/html;
-          try_files $uri /index.html;  # Redirect to index.html if page not found
+          try_files $uri /index.html;
         }
 
         # Proxy requests for API to the backend
         location /api/ {
-          proxy_pass http://backend;  # Forward API requests to backend
+          proxy_pass http://backend-service; # Forward API requests to backend
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
