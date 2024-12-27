@@ -328,6 +328,8 @@ om Prometheus te zien openen wij de prometheus / overview
 Terug kerende naar mijn helm, had ik blijkbaar verkeerd ingesteld en dat was omdat ik prettier had staan in visual studio.
 Deze veroorzaakte verkeerde indentatie met tabs en liet spatie tussen { { } }, blijkbaar was helm case sensitive.
 
+Helm kun je ook niet meer via google cloud packages zelf installen dus deze moet je dan zelf ophalen van github
+
 Hier zien we dat de deployment gelukt is meerdere pogingen
 
 ![alt text](image-26.png)
