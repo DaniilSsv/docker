@@ -27,22 +27,12 @@ services:
     build:
       context: ./frontend  # Build from the frontend folder
       dockerfile: Dockerfile  # Use Dockerfile in the frontend folder
+    ports:
+      - "80:80"
     depends_on:
       - backend  # Ensure backend is started before frontend
     networks:
       - backbone  # Connect to the same network as other services
-
-  proxy:
-    image: nginx:latest
-    volumes:
-      - ./frontend/build:/usr/share/nginx/html 
-      - ./frontend/nginx.conf:/etc/nginx/nginx.conf  # Mount the custom Nginx config
-    ports:
-      - "80:80"  # Expose Nginx on port 80
-    depends_on:
-      - backend  # Ensure backend is started before Nginx
-    networks:
-      - backbone
 
 networks:
   backbone:
