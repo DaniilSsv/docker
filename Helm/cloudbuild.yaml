@@ -32,9 +32,10 @@ steps:
       - '--project'
       - 'myreactapp-445621' # Replace with your project ID
 
-  # Step 5: Install gke-gcloud-auth-plugin and Helm
+  # Step 5: Helm Deploy
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'Helm Deploy'
+    dir: './' # Ensure you're in the root directory
     entrypoint: 'sh'
     args:
       - '-c'
@@ -43,7 +44,8 @@ steps:
         curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
         chmod +x get_helm.sh
         ./get_helm.sh
-        helm upgrade --install car-app ./helm \
+        cd ./Helm || exit 1
+        helm upgrade --install car-app . \
           -f values.yaml \
           --set backend.image=eu.gcr.io/myreactapp-445621/backend:latest \
           --set frontend.image=eu.gcr.io/myreactapp-445621/frontend:latest
