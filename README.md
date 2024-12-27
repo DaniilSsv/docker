@@ -164,3 +164,44 @@ Indien nodig kun je ook de connectie testen tussen de pods door kubectl exec -it
 ![alt text](image-11.png)
 
 Het is mogelijk dat de backend niet direct runt of errort, dit kan zijn omdat de db nog niet opgesteld is binnen minikube, geef het wat tijd.
+
+# Deployment Google Cloud
+
+## stappen
+
+- Project aanmaken
+- Kubernetes engine aanzetten
+- vervolgens clusters aanmaken
+
+We kiezen voor de meest goedkope GKE, maar wel een die genoeg is voor onze applicatie te draaien
+
+- connecten
+
+![alt text](image-6.png)
+
+Het duurt even tegen dat de cluster online staat
+
+```bash
+gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project myreactapp-445621
+```
+
+- connectie testen
+
+```bash
+kubectl get nodes
+```
+
+![alt text](image-8.png)
+
+- deployen
+
+Eerst de configmap daarna services en dan de deployments
+Nu applyen we eerst de configmap, die kun je dan testen met `kubectl get configmaps`.
+
+Eerst deployen we MongoDB daarna backend en dan pas frontend
+
+![alt text](image-16.png)
+
+TESTEN
+
+![alt text](image-19.png)

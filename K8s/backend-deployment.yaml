@@ -23,4 +23,3 @@ spec:
                 configMapKeyRef:
                   name: backend-config
                   key: MONGO_URI
-              #value: 'mongodb://mongo-service:27017/cars'

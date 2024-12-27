@@ -23,7 +23,7 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: LoadBalancer # Expose frontend service externally via a LoadBalancer
+  type: ClusterIP # Expose frontend service externally via a LoadBalancer
 
 ---
 apiVersion: v1
@@ -37,4 +37,18 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
-  type: LoadBalancer # Expose backend service externally via a LoadBalancer
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

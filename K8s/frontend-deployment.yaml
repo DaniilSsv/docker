@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -17,10 +17,11 @@ spec:
           image: kaljmarik/frontend:latest
           ports:
             - containerPort: 80
+          args:
+            - 'REACT_APP_API_URL=http://backend-service:3000'
           env:
             - name: REACT_APP_API_URL
               valueFrom:
                 configMapKeyRef:
                   name: frontend-config
                   key: REACT_APP_API_URL
-              #value: 'http://backend-service'
