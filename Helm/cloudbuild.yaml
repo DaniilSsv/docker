@@ -32,8 +32,8 @@ steps:
       - '--project'
       - 'myreactapp-445621' # Replace with your project ID
 
-  # Step 4: Deploy with Helm
-  - name: 'gcr.io/cloud-builders/helm'
+  # Step 5: Deploy with Helm
+  - name: 'gcr.io/cloud-builders/helm:v3.7.0' # Specify a version instead of 'latest'
     id: 'Helm Deploy'
     args:
       - 'upgrade'
