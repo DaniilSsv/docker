@@ -7,8 +7,9 @@ function App() {
 
   // Fetch car brands from the backend using fetch
   useEffect(() => {
-    console.log(`${process.env.REACT_APP_API_URL}/car-brands`)
-    fetch(`${process.env.REACT_APP_API_URL}/car-brands`)
+    console.log(`${process.env.REACT_APP_API_URL || 'REACT_APP_API_URL_PLACEHOLDER'}/car-brands`)
+    fetch(`${process.env.REACT_APP_API_URL || 'REACT_APP_API_URL_PLACEHOLDER'}/car-brands`)
+
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
