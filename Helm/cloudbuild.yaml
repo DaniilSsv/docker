@@ -44,6 +44,10 @@ steps:
         curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
         chmod +x get_helm.sh
         ./get_helm.sh
+
+        # Authenticate and set the correct GKE cluster context
+        gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project myreactapp-445621
+
         cd ./Helm || exit 1
         helm upgrade --install car-app . \
           -f values.yaml \
