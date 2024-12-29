@@ -54,24 +54,25 @@ steps:
           --set backend.image=eu.gcr.io/myreactapp-445621/backend:latest \
           --set frontend.image=eu.gcr.io/myreactapp-445621/frontend:latest
 
-  # Step 6: Verify Production Deployment
+  # Step 6: Verify Backend Deployment
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'Verify Backend Deployment'
+    entrypoint: 'sh'
     args:
-      - 'rollout'
-      - 'status'
-      - 'deployment/backend-deployment'
-      - '-n'
-      - 'production'
+      - '-c'
+      - |
+        gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project myreactapp-445621
+        kubectl rollout status deployment/backend-deployment -n production
 
+  # Step 7: Verify Frontend Deployment
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'Verify Frontend Deployment'
+    entrypoint: 'sh'
     args:
-      - 'rollout'
-      - 'status'
-      - 'deployment/frontend-deployment'
-      - '-n'
-      - 'production'
+      - '-c'
+      - |
+        gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project myreactapp-445621
+        kubectl rollout status deployment/frontend-deployment -n production
 
 images:
   - 'eu.gcr.io/myreactapp-445621/backend:latest'
