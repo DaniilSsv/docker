@@ -19,7 +19,7 @@ steps:
     id: 'Push Frontend'
     args: ['push', 'eu.gcr.io/myreactapp-445621/frontend:latest']
 
-  # Step 3: Set up kubectl with GKE credentials
+  # Step 3: Set up kubectl with GKE credentials (Fixed with correct region)
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Setup kubectl'
     args:
@@ -28,14 +28,14 @@ steps:
       - 'get-credentials'
       - 'cluster-1' # Replace with your actual GKE cluster name
       - '--region'
-      - 'europe-west1-b' # Correct region/subregion
+      - 'europe-west1-b' # Use the correct region or subregion from your GKE setup
       - '--project'
-      - 'myreactapp-445621'
+      - 'myreactapp-445621' # Replace with your project ID
 
-  # Step 4: Install Helm if not already available
+  # Step 5: Helm Deploy
   - name: 'gcr.io/cloud-builders/kubectl'
-    id: 'Helm Install'
-    dir: './Helm'
+    id: 'Helm Deploy'
+    dir: './Helm' # Ensures the script runs inside the Helm folder
     entrypoint: 'sh'
     args:
       - '-c'
@@ -45,14 +45,6 @@ steps:
         chmod +x get_helm.sh
         ./get_helm.sh
 
-  # Step 5: Helm Deploy to Production Namespace
-  - name: 'gcr.io/cloud-builders/kubectl'
-    id: 'Helm Deploy'
-    dir: './Helm'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - |
         gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project myreactapp-445621
 
         helm upgrade --install car-app . \
