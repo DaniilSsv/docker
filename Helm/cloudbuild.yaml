@@ -19,7 +19,7 @@ steps:
     id: 'Push Frontend'
     args: ['push', 'eu.gcr.io/myreactapp-445621/frontend:latest']
 
-  # Step 3: Set up kubectl with GKE credentials (Fixed with correct region)
+  # Step 3: Set up kubectl with GKE credentials
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Setup kubectl'
     args:
@@ -28,14 +28,14 @@ steps:
       - 'get-credentials'
       - 'cluster-1' # Replace with your actual GKE cluster name
       - '--region'
-      - 'europe-west1-b' # Use the correct region or subregion from your GKE setup
+      - 'europe-west1-b' # Correct region/subregion
       - '--project'
-      - 'myreactapp-445621' # Replace with your project ID
+      - 'myreactapp-445621'
 
-  # Step 5: Helm Deploy
+  # Step 4: Install Helm if not already available
   - name: 'gcr.io/cloud-builders/kubectl'
-    id: 'Helm Deploy'
-    dir: './Helm' # Ensures the script runs inside the Helm folder
+    id: 'Helm Install'
+    dir: './Helm'
     entrypoint: 'sh'
     args:
       - '-c'
@@ -45,12 +45,41 @@ steps:
         chmod +x get_helm.sh
         ./get_helm.sh
 
+  # Step 5: Helm Deploy to Production Namespace
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: 'Helm Deploy'
+    dir: './Helm'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
         gcloud container clusters get-credentials cluster-1 --zone europe-west1-b --project myreactapp-445621
 
         helm upgrade --install car-app . \
           -f values-prod.yaml \
+          --namespace production \
+          --create-namespace \
           --set backend.image=eu.gcr.io/myreactapp-445621/backend:latest \
           --set frontend.image=eu.gcr.io/myreactapp-445621/frontend:latest
+
+  # Step 6: Verify Production Deployment
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: 'Verify Backend Deployment'
+    args:
+      - 'rollout'
+      - 'status'
+      - 'deployment/backend-deployment'
+      - '-n'
+      - 'production'
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: 'Verify Frontend Deployment'
+    args:
+      - 'rollout'
+      - 'status'
+      - 'deployment/frontend-deployment'
+      - '-n'
+      - 'production'
 
 images:
   - 'eu.gcr.io/myreactapp-445621/backend:latest'
