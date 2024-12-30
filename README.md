@@ -299,7 +299,7 @@ helm repo update
 installen
 
 ```bash
-helm install prometheus prometheus-community/kube-prometheus-stack
+helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring
 ```
 
 By default zal deze geïnstalleerd staan in de namespace default
@@ -307,8 +307,8 @@ By default zal deze geïnstalleerd staan in de namespace default
 services patchen en naar loadbalancer omzetten, je voert commando uit, pas type aan en saved
 
 ```bash
-kubectl edit svc prometheus-kube-prometheus-prometheus
-kubectl edit svc prometheus-grafana
+kubectl edit svc prometheus-kube-prometheus-prometheus -n monitoring
+kubectl edit svc prometheus-grafana -n monitoring
 ```
 
 ![alt text](image-21.png)
@@ -319,9 +319,12 @@ Password: prom-operator
 
 ![alt text](image-22.png)
 
+![alt text](image-28.png)
+
 om Prometheus te zien openen wij de prometheus / overview
 
 ![alt text](image-23.png)
+
 
 ## Problemen
 
