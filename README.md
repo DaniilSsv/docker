@@ -289,7 +289,8 @@ om Prometheus te zien openen wij de prometheus / overview
 Zoals we zien krijgen we al meerdere dashboard te zien. Deze werden automatisch geconfigureerd.
 
 Grafana toont enkel dashboard en haalt geen data op.<br/>
-We weten ook dat Google zelf geen data geeft vanuit de cluster, dus kunnen we er vanuit gaan dat alle data die we zien afkomstig is van prometheus.
+We weten ook dat Google zelf geen data meegeeft vanuit de cluster, dus kunnen we er vanuit gaan dat alle data die we zien afkomstig is van prometheus.
+Met mijn methode moet je zelf geen configuratie schrijven omdat deze automatisch voor je wordt gemaakt en toegepast
 
 Een veel makkelijker manier om je clusters te bekijken is door gebruik te maken van google monitoring, deze gebeurd automatisch.
 
